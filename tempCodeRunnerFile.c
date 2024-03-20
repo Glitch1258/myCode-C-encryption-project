@@ -1,3 +1,9 @@
-#include <stdio.h>
-#include <stdbool.h>
-#include <stdlib.h>
+
+
+        printf("invalid input exiting ...");
+        return 0 ;
+
+    }
+    
+
+    return 0;
