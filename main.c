@@ -3,14 +3,14 @@
 #include <stdlib.h>
 #include "utilityFunctions.h"
 
-//6
+//7
 
 // int lengthOfIntegerarray(int array[]){
 //     return ( sizeof(array) / sizeof(array[0]));
 // }
 
 int main() {
-    int firstPrimeNumber,secondPrimeNumber;
+    
 
     
      printf("\n\nthis program encrypts files using the he RSA (Rivest-Shamir-Adleman) algorithm\n\n");
@@ -25,9 +25,17 @@ int main() {
 
 
         if(USER_OPTION==1){
+
+            int firstPrimeNumber,secondPrimeNumber,upperLimit,
+            lowerLimit,sizeOfPrimeNumberArray,indexFirstPrimeNumber,
+            indexSecondPrimeNumber;
+
+            int* primeNumberArray;
+
+            long long int productOfPrimeNumbers,PHI;
+
             system("cls");
             printf("Generating private and public keys for enryption\n");
-            int upperLimit,lowerLimit;
             printf("\n\nTo generate public keys you need to choose 2 large prime numbers\n");
             printf("This program generates prime numbers with in a given range of your choosing \n");
             printf("You need to input 2 values one for a LOWER LIMIT and another for an UPPER LIMIT of a range \n");
@@ -37,15 +45,12 @@ int main() {
             printf("enter value for LOWER LIMIT of range : ");
             scanf("%d",&lowerLimit);
             
-
             printf("enter value for UPPER LIMIT of range : ");
             scanf("%d",&upperLimit);
             printf("\n");
 
-            int sizeOfPrimeNumberArray;
-            int* primeNumberArray = generatePrimeNumbersInRangeOf(lowerLimit,upperLimit,&sizeOfPrimeNumberArray);
-            int indexFirstPrimeNumber,indexSecondPrimeNumber;
-
+            primeNumberArray = generatePrimeNumbersInRangeOf(lowerLimit,upperLimit,&sizeOfPrimeNumberArray);
+          
             printf("Enter index of first primeNumber : ");
             scanf("%d",&indexFirstPrimeNumber);
             firstPrimeNumber = primeNumberArray[indexFirstPrimeNumber];
@@ -54,12 +59,17 @@ int main() {
             scanf("%d",&indexSecondPrimeNumber);
             secondPrimeNumber = primeNumberArray[indexSecondPrimeNumber];
 
+            free(primeNumberArray);// free memory allocated in heap
 
             //printf("first prime number =  %d  \n second prime number = %d",firstPrimeNumber,secondPrimeNumber);
            // scanf("%d",&indexSecondPrimeNumber);
-            long long int productOfPrimeNumbers = (firstPrimeNumber*secondPrimeNumber);
-            long long int PHI = ((firstPrimeNumber-1)*(secondPrimeNumber-1));
+            productOfPrimeNumbers = (firstPrimeNumber*secondPrimeNumber);
+            PHI = ((firstPrimeNumber-1)*(secondPrimeNumber-1));
             //printf("productOfprimenumbers : %d  PHI : %d ", productOfPrimeNumbers,PHI);
+
+            int sizeOfArray;
+
+            showAvailablePublicKeys(PHI,&sizeOfArray);
 
 
 
