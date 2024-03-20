@@ -23,11 +23,11 @@ int main() {
 
     n=30;
     m=50;
-    int sss;
-    int *array = generatePrimeNumbersInRangeOf(n,m,&sss);
+    int arraySize;
+    int *array = generatePrimeNumbersInRangeOf(n,m,&arraySize);
 
     printf("======================================\n");
-    for(int i=0;i<sss;i++){
+    for(int i=0;i<arraySize;i++){
         printf("in %d ===== %d\n",i,array[i]);
     }
 
