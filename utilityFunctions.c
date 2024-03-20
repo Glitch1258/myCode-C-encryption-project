@@ -3,7 +3,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 int* generatePrimeNumbersInRangeOf(int lowerLimit, int upperLimit , int *sizeOfprimeNumberArray) { 
-    bool isPrime[upperLimit+1];
+     bool *isPrime = (bool *)malloc((upperLimit + 1) * sizeof(bool));
     for (int i = 0; i <= upperLimit; i++)
         isPrime[i] = true;
 
@@ -52,5 +52,6 @@ int* generatePrimeNumbersInRangeOf(int lowerLimit, int upperLimit , int *sizeOfp
 
 
     printf("\n");
+    free(isPrime);
     return primeNumberArray;
 }

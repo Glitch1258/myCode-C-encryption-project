@@ -31,7 +31,7 @@ int main() {
         printf("in %d ===== %d\n",i,array[i]);
     }
 
-    printf("Enter the value of n: ");
+    printf("Enter the value of n: as");
     scanf("%d", &n);
 
 
