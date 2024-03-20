@@ -24,8 +24,24 @@ int main() {
 
 
         if(USER_OPTION==1){
+            system("cls");
             printf("Generating private and public keys for enryption\n");
             int upperLimit,lowerLimit;
+            printf("\n\nTo generate public keys you need to choose 2 large prime numbers\n");
+            printf("This program generates prime numbers with in a given range of your choosing \n");
+            printf("You need to input 2 values one for a LOWER LIMIT and another for an UPPER LIMIT of a range \n");
+            printf("The program will generate all prime numbers within the given [ LOWER LIMIT --- UPPER LIMIT ]  \n");
+            printf("keep in mind that we need to generate large prime numbers \n\n\n");
+
+            printf("enter value for LOWER LIMIT of range : ");
+            scanf("%d",&lowerLimit);
+            
+
+            printf("enter value for UPPER LIMIT of range : ");
+            scanf("%d",&upperLimit);
+            printf("\n");
+
+
             continue;
         }
 
