@@ -3,13 +3,14 @@
 #include <stdlib.h>
 #include "utilityFunctions.h"
 
-
+//6
 
 // int lengthOfIntegerarray(int array[]){
 //     return ( sizeof(array) / sizeof(array[0]));
 // }
 
 int main() {
+    int firstPrimeNumber,secondPrimeNumber;
 
     
      printf("\n\nthis program encrypts files using the he RSA (Rivest-Shamir-Adleman) algorithm\n\n");
@@ -41,6 +42,29 @@ int main() {
             scanf("%d",&upperLimit);
             printf("\n");
 
+            int sizeOfPrimeNumberArray;
+            int* primeNumberArray = generatePrimeNumbersInRangeOf(lowerLimit,upperLimit,&sizeOfPrimeNumberArray);
+            int indexFirstPrimeNumber,indexSecondPrimeNumber;
+
+            printf("Enter index of first primeNumber : ");
+            scanf("%d",&indexFirstPrimeNumber);
+            firstPrimeNumber = primeNumberArray[indexFirstPrimeNumber];
+
+            printf("Enter index of second primeNumber : ");
+            scanf("%d",&indexSecondPrimeNumber);
+            secondPrimeNumber = primeNumberArray[indexSecondPrimeNumber];
+
+
+            //printf("first prime number =  %d  \n second prime number = %d",firstPrimeNumber,secondPrimeNumber);
+           // scanf("%d",&indexSecondPrimeNumber);
+            long long int productOfPrimeNumbers = (firstPrimeNumber*secondPrimeNumber);
+            long long int PHI = ((firstPrimeNumber-1)*(secondPrimeNumber-1));
+            //printf("productOfprimenumbers : %d  PHI : %d ", productOfPrimeNumbers,PHI);
+
+
+
+
+
 
             continue;
         }
@@ -58,6 +82,7 @@ int main() {
 
         if(USER_OPTION==4){
             printf("exiting programm..\n");
+            system("cls");
             return 0;
         }
 
