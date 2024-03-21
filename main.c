@@ -6,7 +6,16 @@
 int main() {
     
      printf("\n\nthis program encrypts files using the he RSA (Rivest-Shamir-Adleman) algorithm\n\n");
-     while(true){
+     int si;
+     showAvailablePrivateKeys(3120,17 ,&si ,0,2754);
+
+
+
+
+
+
+
+     while(false){
         int USER_OPTION;
         printf("enter 1 to generate public and private keys\n");
         printf("enter 2 to encrypt a file using existing keys \n");

@@ -1,36 +1,13 @@
 #include "utilityFunctions.h"
 #include <stdio.h>
 #include <stdlib.h>
-int * showAvailablePrivateKeys(int PHI,int publicKey ,int * sizeOfarrayArgument ,int lowerLimit,int upperLimit){
-    int sizeOfValidPrivateKeyArray=0;
-    int privateKeyIndex=0;
+int generatePrivateKey(int PHI,int publicKey){
 
-    for(int i=lowerLimit;i<upperLimit;i++){
+    for(int i=2;i<PHI;i++){
         if(((i*publicKey)%PHI)==1){
-            sizeOfValidPrivateKeyArray++;
+            printf("valid Private key is : %d \n", i);
+            return i;
         }
     }
-
-    int *validPrivateKeyArray = (int*)malloc(sizeOfValidPrivateKeyArray*sizeof(int));
-
-     if (validPrivateKeyArray == NULL) {
-        printf("Memory allocation failed validPrivateKeyArray\n");
-        int *errorValueAdderss;
-        int errorValue = -1;
-        *sizeOfarrayArgument=0;
-        errorValueAdderss = &errorValue;
-        return errorValueAdderss ;
-    }
-    
-    for(int i=lowerLimit;i<upperLimit;i++){
-        if(((i*publicKey)%PHI)==1){
-            printf("valid Private key INDEX :  %d  valid Private key : %d \n",privateKeyIndex , i);
-            validPrivateKeyArray[privateKeyIndex] = i;
-            privateKeyIndex++;
-        }
-    }
-    
-    *sizeOfarrayArgument = sizeOfValidPrivateKeyArray;
-    return validPrivateKeyArray;
-    
+    return -1;
 }
