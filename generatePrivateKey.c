@@ -5,14 +5,11 @@ int * showAvailablePrivateKeys(int PHI,int publicKey ,int * sizeOfarrayArgument 
     int sizeOfValidPrivateKeyArray=0;
     int privateKeyIndex=0;
 
-
-
     for(int i=lowerLimit;i<upperLimit;i++){
         if(((i*publicKey)%PHI)==1){
             sizeOfValidPrivateKeyArray++;
         }
     }
-
 
     int *validPrivateKeyArray = (int*)malloc(sizeOfValidPrivateKeyArray*sizeof(int));
 
@@ -25,7 +22,7 @@ int * showAvailablePrivateKeys(int PHI,int publicKey ,int * sizeOfarrayArgument 
         return errorValueAdderss ;
     }
     
-    for(int i=lowerLimit;i<upperLimit;i++){//<----------------
+    for(int i=lowerLimit;i<upperLimit;i++){
         if(((i*publicKey)%PHI)==1){
             printf("valid Private key INDEX :  %d  valid Private key : %d \n",privateKeyIndex , i);
             validPrivateKeyArray[privateKeyIndex] = i;
@@ -35,6 +32,5 @@ int * showAvailablePrivateKeys(int PHI,int publicKey ,int * sizeOfarrayArgument 
     
     *sizeOfarrayArgument = sizeOfValidPrivateKeyArray;
     return validPrivateKeyArray;
-
-
+    
 }
