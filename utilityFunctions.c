@@ -29,8 +29,9 @@ int* generatePrimeNumbersInRangeOf(int lowerLimit, int upperLimit , int *sizeOfp
     *sizeOfprimeNumberArray=index;
     int* primeNumberArray = (int*)malloc(index * sizeof(int));
 
+
     if (primeNumberArray == NULL) {
-        printf("Memory allocation failed\n");
+        printf("Memory allocation failed primeNumberArray\n");
         int *errorValueAdderss;
         int errorValue = -1;
         *sizeOfprimeNumberArray=0;

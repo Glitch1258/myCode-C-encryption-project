@@ -28,9 +28,11 @@ int main() {
 
             int firstPrimeNumber,secondPrimeNumber,upperLimit,
             lowerLimit,sizeOfPrimeNumberArray,indexFirstPrimeNumber,
-            indexSecondPrimeNumber;
+            indexSecondPrimeNumber,sizeOfValidPublicKeysArray,publicKey,
+            indexPublicKey;
 
             int* primeNumberArray;
+            int* validPublicKeysArray;
 
             long long int productOfPrimeNumbers,PHI;
 
@@ -67,9 +69,16 @@ int main() {
             PHI = ((firstPrimeNumber-1)*(secondPrimeNumber-1));
             //printf("productOfprimenumbers : %d  PHI : %d ", productOfPrimeNumbers,PHI);
 
-            int sizeOfArray;
+            validPublicKeysArray =  showAvailablePublicKeys(PHI,&sizeOfValidPublicKeysArray);
 
-            showAvailablePublicKeys(PHI,&sizeOfArray);
+            printf("Enter index of chosen public key : ");
+            scanf("%d",&indexPublicKey);
+            publicKey = validPublicKeysArray[indexPublicKey];
+            free(validPublicKeysArray);
+
+
+
+           
 
 
 
