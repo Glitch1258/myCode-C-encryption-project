@@ -6,16 +6,8 @@
 int main() {
     
      printf("\n\nthis program encrypts files using the he RSA (Rivest-Shamir-Adleman) algorithm\n\n");
-     int si;
-     showAvailablePrivateKeys(3120,17 ,&si ,0,2754);
-
-
-
-
-
-
-
-     while(false){
+     
+     while(true){
         int USER_OPTION;
         printf("enter 1 to generate public and private keys\n");
         printf("enter 2 to encrypt a file using existing keys \n");
@@ -29,7 +21,7 @@ int main() {
             int firstPrimeNumber,secondPrimeNumber,upperLimitOfPrimeNumbers,
             lowerLimitOfPrimeNumbers,sizeOfPrimeNumberArray,indexFirstPrimeNumber,
             indexSecondPrimeNumber,sizeOfValidPublicKeysArray,publicKey,
-            indexPublicKey,lowerLimitOfPrivateKey,upperLimitOfPrivateKey;
+            indexPublicKey,privateKey;
 
             int* primeNumberArray;
             int* validPublicKeysArray;
@@ -73,11 +65,9 @@ int main() {
             publicKey = validPublicKeysArray[indexPublicKey];
             free(validPublicKeysArray);
 
-            printf("The program will generate Private keys within a given range set by the user\n\n");
-            printf("Enter the LOWER LIMIT of the range for generating private key  :  ");
-            scanf("%d",&lowerLimitOfPrivateKey);
-            printf("Enter the UPPER LIMIT of the range for generating private key  :  ");
-            scanf("%d",&upperLimitOfPrivateKey);
+            privateKey = generatePrivateKey(PHI,publicKey);
+            printf("Yout private key : ",privateKey);
+
 
 
            
