@@ -2,12 +2,14 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include "utilityFunctions.h"
+#include <string.h>
 
 int main() {
     
      printf("\n\nthis program encrypts files using the he RSA (Rivest-Shamir-Adleman) algorithm\n\n");
      
      while(true){
+        //system("cls"); needs to stay commented out to make sure error messages from code is visible in console
         int USER_OPTION;
         printf("enter 1 to generate public and private keys\n");
         printf("enter 2 to encrypt a file using existing keys \n");
@@ -25,6 +27,7 @@ int main() {
 
             int* primeNumberArray;
             int* validPublicKeysArray;
+            char saveInLocalStorage;
 
             long long int productOfPrimeNumbers,PHI;
 
@@ -42,6 +45,7 @@ int main() {
             printf("enter value for UPPER LIMIT of range : ");
             scanf("%d",&upperLimitOfPrimeNumbers);
             printf("\n");
+            system("cls");
 
             primeNumberArray = generatePrimeNumbersInRangeOf(lowerLimitOfPrimeNumbers,upperLimitOfPrimeNumbers,&sizeOfPrimeNumberArray);
           
@@ -52,8 +56,8 @@ int main() {
             printf("Enter index of second primeNumber : ");
             scanf("%d",&indexSecondPrimeNumber);
             secondPrimeNumber = primeNumberArray[indexSecondPrimeNumber];
-
             free(primeNumberArray);
+            system("cls");
 
             productOfPrimeNumbers = (firstPrimeNumber*secondPrimeNumber);
             PHI = ((firstPrimeNumber-1)*(secondPrimeNumber-1));
@@ -64,18 +68,55 @@ int main() {
             scanf("%d",&indexPublicKey);
             publicKey = validPublicKeysArray[indexPublicKey];
             free(validPublicKeysArray);
-
-            privateKey = generatePrivateKey(PHI,publicKey);
-            printf("Yout private key : ",privateKey);
-
-
-
+            system("cls"); 
            
 
+            privateKey = generatePrivateKey(PHI,publicKey);
+            //printf("Your private key : %d\n",privateKey);
+            //----------------------------------------------------
+            printf(" do you want to save keys in local storage ?\n press y for yes and n for no\n");
+            //saveInLocalStorage = getchar();
+            scanf(" %c",&saveInLocalStorage);
+            scanf("%c");
 
+            if(saveInLocalStorage=='y'||saveInLocalStorage=='Y'){
 
+                printf("enter name of file :  ");
+                char filename[30];
+                fgets(filename, sizeof(filename), stdin);
+                int fileNameLength = strlen(filename);
 
+                if ((fileNameLength > 0) && (filename[fileNameLength - 1] == '\n')){
+                    filename[fileNameLength - 1] = '\0';
+                }
 
+                strcat(filename, ".txt");
+                                    
+                FILE *filePointer = fopen(filename,"w");
+                if(filePointer==NULL){
+                    perror("Error opening file");
+                    continue;
+                    }else{
+                         fprintf(filePointer, "%lld", productOfPrimeNumbers);
+                         putc('-', filePointer);
+                         fprintf(filePointer, "%d", privateKey);
+                         putc('-', filePointer);
+                         fprintf(filePointer, "%d", publicKey);
+                         putc('\n', filePointer);
+
+                         fprintf(filePointer, "product Of prime numbers [n] = %lld\n", productOfPrimeNumbers);
+                         fprintf(filePointer, "private key = %d\n", privateKey);
+                         fprintf(filePointer, "public key = %d\n", publicKey);
+                         fclose(filePointer);
+                         }
+
+            }else if (saveInLocalStorage=='n'||saveInLocalStorage=='N'){
+                printf("exiting without saving keys \n");
+                continue;
+
+            }else{
+                printf("Invalid input no action can be taken based on it\n");
+            }
 
             continue;
         }
@@ -98,7 +139,7 @@ int main() {
         }
 
 
-        printf("invalid input exiting ...");
+        printf("invalid input exiting ...");;
         return 0 ;
 
     }

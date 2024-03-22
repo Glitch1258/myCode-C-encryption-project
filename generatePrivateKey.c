@@ -4,7 +4,7 @@
 int generatePrivateKey(int PHI,int publicKey){
     for(int i=2;i<PHI;i++){
         if(((i*publicKey)%PHI)==1){
-            printf("valid Private key is : %d \n", i);
+            printf("your Private key is : %d \n", i);
             return i;
         }
     }
