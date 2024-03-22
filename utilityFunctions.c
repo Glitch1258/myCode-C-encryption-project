@@ -39,9 +39,7 @@ int* generatePrimeNumbersInRangeOf(int lowerLimit, int upperLimit , int *sizeOfp
         return errorValueAdderss ;
     }
 
-
     index=0;
-
 
      for (int p = lowerLimit; p <=  upperLimit; p++) {
         if (isPrime[p]){
@@ -52,12 +50,10 @@ int* generatePrimeNumbersInRangeOf(int lowerLimit, int upperLimit , int *sizeOfp
            
     }
 
-
     printf("\n");
     free(isPrime);
     return primeNumberArray;
 }
-
 
  int performmodularExponentiation(int base, int exp, int mod) {
      int result = 1;
@@ -70,9 +66,7 @@ int* generatePrimeNumbersInRangeOf(int lowerLimit, int upperLimit , int *sizeOfp
     return result;
 }
 
-
 int greatestCommonDivisor(int a, int b) {
-    if (b == 0)
-        return a;
+    if (b == 0){return a;}
     return greatestCommonDivisor(b, a % b);
 }
