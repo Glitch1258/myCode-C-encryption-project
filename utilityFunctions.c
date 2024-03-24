@@ -55,7 +55,7 @@ int* generatePrimeNumbersInRangeOf(int lowerLimit, int upperLimit , int *sizeOfp
     return primeNumberArray;
 }
 
- int performmodularExponentiation(int base, int exp, int mod) {
+ int performmodulusularexponentonentiation(int base, int exp, int mod) {
      int result = 1;
     while (exp > 0) {
         if (exp % 2 == 1)
@@ -69,4 +69,23 @@ int* generatePrimeNumbersInRangeOf(int lowerLimit, int upperLimit , int *sizeOfp
 int greatestCommonDivisor(int a, int b) {
     if (b == 0){return a;}
     return greatestCommonDivisor(b, a % b);
+}
+
+int modularExponentiation(int base, int exponent, int modulus) {
+    int result = 1;
+    while (exponent > 0) {
+        if (exponent % 2 == 1)
+            result = (result * base) % modulus;
+        base = (base * base) % modulus;
+        exponent /= 2;
+    }
+    return result;
+}
+
+int rsaEncryptCharacter(int plainCharacter, int publicKey, int productOfPrimeNumbers) {
+    return modularExponentiation(plainCharacter, publicKey, productOfPrimeNumbers);
+}
+
+int rsaDecryptCharacter(int cypherCharacter, int privateKey, int productOfPrimeNumbers) {
+    return modularExponentiation(cypherCharacter, privateKey, productOfPrimeNumbers);
 }

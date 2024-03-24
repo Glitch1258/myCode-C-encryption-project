@@ -1,0 +1,4 @@
+22331-949-9565
+product Of prime numbers [n] = 22331
+private key = 949
+public key = 9565

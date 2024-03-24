@@ -123,6 +123,57 @@ int main() {
 
         if(USER_OPTION==2){
             printf("Encrypting plain text file using receiver's public key\n");
+            printf("Enter full path of file .txt along with the file name  to encrypt :");
+            char plainTextFilePath[100];
+            scanf("%c");
+            fgets(plainTextFilePath,sizeof(plainTextFilePath),stdin);
+            int plainTextFilePathlength = strlen(plainTextFilePath);
+            if((plainTextFilePathlength>0)&&(plainTextFilePath[plainTextFilePathlength-1]=='\n')){
+                plainTextFilePath[plainTextFilePathlength-1]='\0';
+            }
+            bool hasDotOfTXTextenstion = (plainTextFilePath[plainTextFilePathlength-5]=='.');
+            bool hasFirstTOfTXTextenstion = (plainTextFilePath[plainTextFilePathlength-4]=='t');
+            bool hasXOfTXTextenstion = (plainTextFilePath[plainTextFilePathlength-3]=='x');
+            bool hasSecondTOfTXTextenstion = (plainTextFilePath[plainTextFilePathlength-2]=='t');
+            bool hasTXTextensionIncluded = (hasDotOfTXTextenstion && hasFirstTOfTXTextenstion &&
+            hasXOfTXTextenstion && hasSecondTOfTXTextenstion);
+            if(!hasTXTextensionIncluded){
+                strcat(plainTextFilePath,".txt");
+            }
+
+            FILE *filePointer = fopen(plainTextFilePath, "r"); 
+            if (filePointer == NULL)
+            {
+                perror("Error opening file");
+                return -1;
+            }
+
+            fseek(filePointer, 0, SEEK_END);     
+            long fileSize = ftell(filePointer); 
+            rewind(filePointer);               
+
+            char *buffer = (char *)malloc(fileSize + 1); 
+            if (buffer == NULL)
+            {
+                perror("Memory allocation failed");
+                return -1;
+            }
+            
+            fread(buffer, 1, fileSize, filePointer); 
+            buffer[fileSize] = '\0';
+            for(int i=0;buffer[i]!='\0';i++){
+                int cypherCode =  (int)buffer[i];
+                cypherCode = rsaEncryptCharacter(cypherCode,  7207,  7387) ;
+                 printf("%c",buffer[i]);
+                 printf("%d",cypherCode);
+                 printf("%c ",(char)rsaDecryptCharacter(cypherCode,3207, 7387));
+            }
+             //fwrite(buffer, 1, sizeof(buffer) - 1, filePointer);          
+            //printf("%s", buffer);             
+            free(buffer); 
+            fclose(filePointer); 
+            return 0;
+
             continue;
         }
 

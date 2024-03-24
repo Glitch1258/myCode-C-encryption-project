@@ -1,0 +1,10 @@
+During the Second World War, Turing worked for the Government
+Code and Cypher School at Bletchley Park, Britain's codebreaking
+centre that produced Ultra intelligence. For a time he led Hut 8,
+the section that was responsible for German naval cryptanalysis.
+Here, he devised a number of techniques for speeding the breaking
+of German ciphers, including improvements to the pre-war Polish
+bomba method, an electromechanical machine that could find settings
+for the Enigma machine. Turing played a crucial role in cracking
+intercepted coded messages that enabled the Allies to defeat the
+ Axis powers in many crucial
