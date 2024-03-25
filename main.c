@@ -165,7 +165,7 @@ int main()
 
             if (buffer == NULL)
             {
-                perror("Memory allocation failed for cypher text bugger");
+                perror("Memory allocation failed for cypher text buffer");
                 continue;
             }
             printf("Enter public key of receiver : ");
@@ -212,10 +212,26 @@ int main()
                 continue;
             }
 
+            fseek(filePointer, 0, SEEK_END);
+            long fileSize = ftell(filePointer);
+            rewind(filePointer);
+
+            char *buffer = (char *)malloc(fileSize + 1);
+
+            if (buffer == NULL)
+            {
+                perror("Memory allocation failed for Decryption buffer");
+                continue;
+            }
+            int  index=0;
+
             while ((character = fgetc(filePointer)) != EOF)
             {
-                printf("%c", (char)modularExponentiation((int)character, privateKey, productOfPrimeNUmbers));
+                buffer[index] = (char)modularExponentiation((int)character, privateKey, productOfPrimeNUmbers);
+                index++;
             }
+            rewind(filePointer);
+            fwrite(buffer, 1, fileSize, filePointer);
 
             fclose(filePointer);
 
@@ -235,5 +251,5 @@ int main()
         }
     }
 
-    return 0;
+   // return 0;
 }
