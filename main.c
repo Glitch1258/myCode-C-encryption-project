@@ -74,10 +74,7 @@ int main()
             system("cls");
 
             privateKey = generatePrivateKey(PHI, publicKey);
-            // printf("Your private key : %d\n",privateKey);
-            //----------------------------------------------------
             printf(" do you want to save keys in local storage ?\n press y for yes and n for no\n");
-            // saveInLocalStorage = getchar();
             scanf(" %c", &saveInLocalStorage);
             scanf("%c");
 
@@ -130,8 +127,9 @@ int main()
             continue;
         }
 
-        if (USER_OPTION == 2)
+        else if (USER_OPTION == 2)
         {
+            int publicKeyOfReceiver, productOfPrimeNUmbers;
             printf("Encrypting plain text file using receiver's public key\n");
             printf("Enter full path of file .txt along with the file name  to encrypt :");
             char plainTextFilePath[100];
@@ -153,7 +151,7 @@ int main()
                 strcat(plainTextFilePath, ".txt");
             }
 
-            FILE *filePointer = fopen(plainTextFilePath, "r");
+            FILE *filePointer = fopen(plainTextFilePath, "r+");
             if (filePointer == NULL)
             {
                 perror("Error opening file");
@@ -165,83 +163,77 @@ int main()
             rewind(filePointer);
 
             char *buffer = (char *)malloc(fileSize + 1);
+
             if (buffer == NULL)
             {
                 perror("Memory allocation failed");
                 return -1;
             }
+            printf("Enter public key of receiver : ");
+            scanf("%d", &publicKeyOfReceiver);
+            printf("enter productOfPrimeNumbers : ");
+            scanf("%d", &productOfPrimeNUmbers);
 
             fread(buffer, 1, fileSize, filePointer);
             buffer[fileSize] = '\0';
-
-            printf("\n\n\n");
-
             for (int i = 0; buffer[i] != '\0'; i++)
-            {
-                // int cypherCode =  (int)buffer[i];
-                // cypherCode = rsaEncryptCharacter(cypherCode,  7207,  7387) ;
-                printf("%c", buffer[i]);
-                // printf("%d",cypherCode);
-                // printf("%c ",(char)rsaDecryptCharacter(cypherCode,3207, 7387));
+            
+            {   printf("%d_______" , (int)buffer[i]);
+                buffer[i] = (char)rsaEncryptCharacter(buffer[i], publicKeyOfReceiver, productOfPrimeNUmbers);
+                printf("%d\n" , (int)buffer[i]);
             }
-            printf("\n\n\n");
+            rewind(filePointer);
+            fwrite(buffer, 1, fileSize, filePointer);
 
-            for (int i = 0; buffer[i] != '\0'; i++)
-            {
-                // int cypherCode =  (int)buffer[i];
-                // cypherCode = rsaEncryptCharacter(cypherCode,  7207,  7387) ;
-                printf("%d ", (int)buffer[i]);
-                // printf("%d",cypherCode);
-                // printf("%c ",(char)rsaDecryptCharacter(cypherCode,3207, 7387));
-            }
-
-            printf("\n\n\n");
-
-            for (int i = 0; buffer[i] != '\0'; i++)
-            {
-                int cypherCode = (int)buffer[i];
-                cypherCode = rsaEncryptCharacter(cypherCode, 7207, 7387);
-                // printf("%c",buffer[i]);
-                printf("%d ", cypherCode);
-                // printf("%c ",(char)rsaDecryptCharacter(cypherCode,3207, 7387));
-            }
-
-            printf("\n\n\n");
-
-            for (int i = 0; buffer[i] != '\0'; i++)
-            {
-                int cypherCode = (int)buffer[i];
-                cypherCode = rsaEncryptCharacter(cypherCode, 7207, 7387);
-                // printf("%c",buffer[i]);
-                // printf("%d",cypherCode);
-                printf("%c", (char)rsaDecryptCharacter(cypherCode, 3207, 7387));
-            }
-
-            // fwrite(buffer, 1, sizeof(buffer) - 1, filePointer);
-            // printf("%s", buffer);
             free(buffer);
             fclose(filePointer);
-            return 0;
 
             continue;
         }
 
-        if (USER_OPTION == 3)
+        else if (USER_OPTION == 3)
         {
             printf("Decrypting cypher text file using your private key\n");
+
+            FILE *filePointer;
+            char filename[100];
+            char character;
+
+            printf("Enter the name of the file: ");
+            scanf("%s", filename);
+
+            filePointer = fopen(filename, "r");
+            if (filePointer == NULL)
+            {
+                perror("Error opening file");
+                return -1;
+            }
+
+            // Read characters until EOF is encountered
+            while ((character = fgetc(filePointer)) != EOF)
+            {
+                // Process the character, for example, print it
+                printf("%d\n", (int)character);
+            }
+
+            fclose(filePointer);
+
             continue;
         }
 
-        if (USER_OPTION == 4)
+        else if (USER_OPTION == 4)
         {
             printf("exiting programm..\n");
             system("cls");
             return 0;
         }
+        else{
+            printf("invalid input exiting ...");
+            return 0;
 
-        printf("invalid input exiting ...");
-        ;
-        return 0;
+        }
+
+        
     }
 
     return 0;
