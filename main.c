@@ -11,7 +11,6 @@ int main()
 
     while (true)
     {
-        // system("cls"); needs to stay commented out to make sure error messages from code is visible in console
         int USER_OPTION;
         printf("enter 1 to generate public and private keys\n");
         printf("enter 2 to encrypt a file using existing keys \n");
@@ -130,7 +129,7 @@ int main()
         else if (USER_OPTION == 2)
         {
             int publicKeyOfReceiver, productOfPrimeNUmbers;
-            printf("Encrypting plain text file using receiver's public key\n");
+            printf("Encrypting plain text file using receiver's public key\n\n");
             printf("Enter full path of file .txt along with the file name  to encrypt :");
             char plainTextFilePath[100];
             scanf("%c");
@@ -154,8 +153,8 @@ int main()
             FILE *filePointer = fopen(plainTextFilePath, "r+");
             if (filePointer == NULL)
             {
-                perror("Error opening file");
-                return -1;
+                perror("Error opening plaintext file");
+                continue;
             }
 
             fseek(filePointer, 0, SEEK_END);
@@ -166,21 +165,20 @@ int main()
 
             if (buffer == NULL)
             {
-                perror("Memory allocation failed");
-                return -1;
+                perror("Memory allocation failed for cypher text bugger");
+                continue;
             }
             printf("Enter public key of receiver : ");
             scanf("%d", &publicKeyOfReceiver);
-            printf("enter productOfPrimeNumbers : ");
+            printf("Enter Product Of Prime Numbers : ");
             scanf("%d", &productOfPrimeNUmbers);
 
             fread(buffer, 1, fileSize, filePointer);
             buffer[fileSize] = '\0';
             for (int i = 0; buffer[i] != '\0'; i++)
-            
-            {   printf("%d_______" , (int)buffer[i]);
-                buffer[i] = (char)rsaEncryptCharacter(buffer[i], publicKeyOfReceiver, productOfPrimeNUmbers);
-                printf("%d\n" , (int)buffer[i]);
+
+            {
+                buffer[i] = (char)modularExponentiation((int)buffer[i], publicKeyOfReceiver, productOfPrimeNUmbers);
             }
             rewind(filePointer);
             fwrite(buffer, 1, fileSize, filePointer);
@@ -193,6 +191,7 @@ int main()
 
         else if (USER_OPTION == 3)
         {
+            int productOfPrimeNUmbers, privateKey;
             printf("Decrypting cypher text file using your private key\n");
 
             FILE *filePointer;
@@ -201,19 +200,21 @@ int main()
 
             printf("Enter the name of the file: ");
             scanf("%s", filename);
+            printf("Enter the private Key : ");
+            scanf("%d", &privateKey);
+            printf("Enter the product of prime numbers Key: ");
+            scanf("%d", &productOfPrimeNUmbers);
 
-            filePointer = fopen(filename, "r");
+            filePointer = fopen(filename, "r+");
             if (filePointer == NULL)
             {
                 perror("Error opening file");
-                return -1;
+                continue;
             }
 
-            // Read characters until EOF is encountered
             while ((character = fgetc(filePointer)) != EOF)
             {
-                // Process the character, for example, print it
-                printf("%d\n", (int)character);
+                printf("%c", (char)modularExponentiation((int)character, privateKey, productOfPrimeNUmbers));
             }
 
             fclose(filePointer);
@@ -227,13 +228,11 @@ int main()
             system("cls");
             return 0;
         }
-        else{
+        else
+        {
             printf("invalid input exiting ...");
             return 0;
-
         }
-
-        
     }
 
     return 0;
