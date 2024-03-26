@@ -134,21 +134,7 @@ long long int main()
             char plainTextFilePath[100], character;
             scanf("%c");
             fgets(plainTextFilePath, sizeof(plainTextFilePath), stdin);
-            long long int plainTextFilePathlength = strlen(plainTextFilePath);
-            if ((plainTextFilePathlength > 0) && (plainTextFilePath[plainTextFilePathlength - 1] == '\n'))
-            {
-                plainTextFilePath[plainTextFilePathlength - 1] = '\0';
-            }
-            bool hasDotOfTXTextenstion = (plainTextFilePath[plainTextFilePathlength - 5] == '.');
-            bool hasFirstTOfTXTextenstion = (plainTextFilePath[plainTextFilePathlength - 4] == 't');
-            bool hasXOfTXTextenstion = (plainTextFilePath[plainTextFilePathlength - 3] == 'x');
-            bool hasSecondTOfTXTextenstion = (plainTextFilePath[plainTextFilePathlength - 2] == 't');
-            bool hasTXTextensionIncluded = (hasDotOfTXTextenstion && hasFirstTOfTXTextenstion &&
-                                            hasXOfTXTextenstion && hasSecondTOfTXTextenstion);
-            if (!hasTXTextensionIncluded)
-            {
-                strcat(plainTextFilePath, ".txt");
-            }
+            addExtension(plainTextFilePath);
 
             FILE *filePointer = fopen(plainTextFilePath, "rb"); // Open file in binary mode
             if (filePointer == NULL)
@@ -161,28 +147,29 @@ long long int main()
             long long int fileSize = ftell(filePointer);
             rewind(filePointer);
 
-            long long int *buffer = (long long int *)malloc(((fileSize) + 1) * sizeof(long long int)); // Allocate memory for buffer
+            long long int *buffer = (long long int *)malloc(((fileSize) + 1) * sizeof(long long int));
 
             if (buffer == NULL)
             {
                 perror("Memory allocation failed for cypher text buffer");
                 continue;
             }
+
             printf("Enter public key of receiver : ");
             scanf("%lld", &publicKeyOfReceiver);
             printf("Enter Product Of Prime Numbers : ");
             scanf("%lld", &productOfPrimeNumbers);
-            int index = 0;
+            long long int index = 0;
 
             while ((character = fgetc(filePointer)) != EOF)
             {
-                buffer[index] = modularExponentiation((long long int)character, publicKeyOfReceiver, productOfPrimeNumbers);
+                buffer[index] = modularExponentiation((long long int)character, publicKeyOfReceiver, productOfPrimeNumbers); // encrypts hata hear
                 index++;
             }
 
-            fclose(filePointer); // Close the original file
+            fclose(filePointer);
 
-            FILE *fp = fopen(plainTextFilePath, "wb"); // Open a new file in binary mode for writing
+            FILE *fp = fopen(plainTextFilePath, "wb");
             if (fp == NULL)
             {
                 perror("Error creating encrypted file");
@@ -190,7 +177,7 @@ long long int main()
                 continue;
             }
 
-            fwrite(buffer, sizeof(long long int), index, fp); // Write encrypted data to the file
+            fwrite(buffer, sizeof(long long int), index, fp);
 
             free(buffer);
             fclose(fp);
@@ -203,14 +190,15 @@ long long int main()
             long long int productOfPrimeNumbers, privateKey;
             printf("Decrypting cypher text file using your private key\n");
 
-            FILE *filePointer;
             char filename[100];
             char character;
 
             printf("Enter the name of the file: ");
             scanf("%s", filename);
+            scanf("%c");
+            addExtension(filename);
+            FILE *filePointer = fopen(filename, "rb");
 
-            filePointer = fopen(filename, "rb");
             if (filePointer == NULL)
             {
                 perror("Error opening file");
@@ -221,33 +209,29 @@ long long int main()
             long fileSize = ftell(filePointer);
             rewind(filePointer);
 
-            long long int *buffer = (long long int *)malloc((fileSize + 1));
-            char *charBuffer = (char *)malloc((fileSize + 1)/8);
+            long long int *buffer = (long long int *)malloc((fileSize + 1) * (sizeof(long long int)));
 
             if (buffer == NULL)
             {
                 perror("Memory allocation failed for Decryption buffer");
                 continue;
             }
+            fread(buffer, sizeof(long long int), fileSize, filePointer);
+            fclose(filePointer);
+            filePointer = fopen(filename, "wb");
 
-             printf("Enter the private Key : ");
+            printf("Enter the private Key : ");
             scanf("%lld", &privateKey);
             printf("Enter the product of prime numbers Key: ");
             scanf("%lld", &productOfPrimeNumbers);
             long long int index = 0;
 
-            while ((character = fgetc(filePointer)) != EOF)
+            for (int i = 0; i < fileSize / sizeof(long long int); i++)
             {
-                buffer[index] = modularExponentiation((long long int)character, privateKey, productOfPrimeNumbers);
-                printf("%c", buffer[index]);
-                charBuffer[index] = (char) (buffer[index]);//((buffer[index]>> 56) & 0xFF);
-                index++;
+                char decrypted_char = (char)modularExponentiation(buffer[i], privateKey, productOfPrimeNumbers);
+                printf("%c", decrypted_char);
+                fprintf(filePointer, "%c", decrypted_char);
             }
-           rewind(filePointer);
-           fwrite(charBuffer, 1,sizeof(charBuffer)/sizeof(charBuffer[0]), filePointer); 
-
-           fclose(filePointer);
-    
 
             continue;
         }

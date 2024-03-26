@@ -7,4 +7,5 @@ long long int* showAvailablePublicKeys(long long int PHI,long long int * sizeOfa
 long long int generatePrivateKey(long long int PHI,long long int privateKey);
 long long int rsaEncryptCharacter(long long int plainCharacter, long long int publicKey, long long int productOfPrimeNumbers);
 long long int rsaDecryptCharacter(long long int cypherCharacter, long long int privateKey, long long int productOfPrimeNumbers);
+void addExtension(char *plainTextFilePath);
 #endif
