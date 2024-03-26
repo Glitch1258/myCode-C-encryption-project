@@ -4,31 +4,31 @@
 #include "utilityFunctions.h"
 #include <string.h>
 
-int main()
+long long int main()
 {
 
     printf("\n\nthis program encrypts files using the he RSA (Rivest-Shamir-Adleman) algorithm\n\n");
 
     while (true)
     {
-        int USER_OPTION;
+        long long int USER_OPTION;
         printf("enter 1 to generate public and private keys\n");
         printf("enter 2 to encrypt a file using existing keys \n");
         printf("enter 3 to decrypt a file using existing keys \n");
         printf("enter 4 to exit \n");
 
-        scanf("%d", &USER_OPTION);
+        scanf("%lld", &USER_OPTION);
 
         if (USER_OPTION == 1)
         {
 
-            int firstPrimeNumber, secondPrimeNumber, upperLimitOfPrimeNumbers,
+            long long int firstPrimeNumber, secondPrimeNumber, upperLimitOfPrimeNumbers,
                 lowerLimitOfPrimeNumbers, sizeOfPrimeNumberArray, indexFirstPrimeNumber,
                 indexSecondPrimeNumber, sizeOfValidPublicKeysArray, publicKey,
                 indexPublicKey, privateKey;
 
-            int *primeNumberArray;
-            int *validPublicKeysArray;
+            long long int *primeNumberArray;
+            long long int *validPublicKeysArray;
             char saveInLocalStorage;
 
             long long int productOfPrimeNumbers, PHI;
@@ -42,21 +42,21 @@ int main()
             printf("keep in mind that we need to generate large prime numbers \n\n\n");
 
             printf("enter value for LOWER LIMIT of range : ");
-            scanf("%d", &lowerLimitOfPrimeNumbers);
+            scanf("%lld", &lowerLimitOfPrimeNumbers);
 
             printf("enter value for UPPER LIMIT of range : ");
-            scanf("%d", &upperLimitOfPrimeNumbers);
+            scanf("%lld", &upperLimitOfPrimeNumbers);
             printf("\n");
             system("cls");
 
             primeNumberArray = generatePrimeNumbersInRangeOf(lowerLimitOfPrimeNumbers, upperLimitOfPrimeNumbers, &sizeOfPrimeNumberArray);
 
             printf("Enter index of first primeNumber : ");
-            scanf("%d", &indexFirstPrimeNumber);
+            scanf("%lld", &indexFirstPrimeNumber);
             firstPrimeNumber = primeNumberArray[indexFirstPrimeNumber];
 
             printf("Enter index of second primeNumber : ");
-            scanf("%d", &indexSecondPrimeNumber);
+            scanf("%lld", &indexSecondPrimeNumber);
             secondPrimeNumber = primeNumberArray[indexSecondPrimeNumber];
             free(primeNumberArray);
             system("cls");
@@ -67,7 +67,7 @@ int main()
             validPublicKeysArray = showAvailablePublicKeys(PHI, &sizeOfValidPublicKeysArray);
 
             printf("Enter index of chosen public key : ");
-            scanf("%d", &indexPublicKey);
+            scanf("%lld", &indexPublicKey);
             publicKey = validPublicKeysArray[indexPublicKey];
             free(validPublicKeysArray);
             system("cls");
@@ -83,7 +83,7 @@ int main()
                 printf("enter name of file :  ");
                 char filename[30];
                 fgets(filename, sizeof(filename), stdin);
-                int fileNameLength = strlen(filename);
+                long long int fileNameLength = strlen(filename);
 
                 if ((fileNameLength > 0) && (filename[fileNameLength - 1] == '\n'))
                 {
@@ -128,13 +128,13 @@ int main()
 
         else if (USER_OPTION == 2)
         {
-            int publicKeyOfReceiver, productOfPrimeNUmbers;
+            long long int publicKeyOfReceiver, productOfPrimeNumbers;
             printf("Encrypting plain text file using receiver's public key\n\n");
             printf("Enter full path of file .txt along with the file name  to encrypt :");
-            char plainTextFilePath[100];
+            char plainTextFilePath[100], character;
             scanf("%c");
             fgets(plainTextFilePath, sizeof(plainTextFilePath), stdin);
-            int plainTextFilePathlength = strlen(plainTextFilePath);
+            long long int plainTextFilePathlength = strlen(plainTextFilePath);
             if ((plainTextFilePathlength > 0) && (plainTextFilePath[plainTextFilePathlength - 1] == '\n'))
             {
                 plainTextFilePath[plainTextFilePathlength - 1] = '\0';
@@ -150,7 +150,7 @@ int main()
                 strcat(plainTextFilePath, ".txt");
             }
 
-            FILE *filePointer = fopen(plainTextFilePath, "r+");
+            FILE *filePointer = fopen(plainTextFilePath, "rb"); // Open file in binary mode
             if (filePointer == NULL)
             {
                 perror("Error opening plaintext file");
@@ -158,10 +158,10 @@ int main()
             }
 
             fseek(filePointer, 0, SEEK_END);
-            long fileSize = ftell(filePointer);
+            long long int fileSize = ftell(filePointer);
             rewind(filePointer);
 
-            char *buffer = (char *)malloc(fileSize + 1);
+            long long int *buffer = (long long int *)malloc(((fileSize) + 1) * sizeof(long long int)); // Allocate memory for buffer
 
             if (buffer == NULL)
             {
@@ -169,29 +169,38 @@ int main()
                 continue;
             }
             printf("Enter public key of receiver : ");
-            scanf("%d", &publicKeyOfReceiver);
+            scanf("%lld", &publicKeyOfReceiver);
             printf("Enter Product Of Prime Numbers : ");
-            scanf("%d", &productOfPrimeNUmbers);
+            scanf("%lld", &productOfPrimeNumbers);
+            int index = 0;
 
-            fread(buffer, 1, fileSize, filePointer);
-            buffer[fileSize] = '\0';
-            for (int i = 0; buffer[i] != '\0'; i++)
-
+            while ((character = fgetc(filePointer)) != EOF)
             {
-                buffer[i] = (char)modularExponentiation((int)buffer[i], publicKeyOfReceiver, productOfPrimeNUmbers);
+                buffer[index] = modularExponentiation((long long int)character, publicKeyOfReceiver, productOfPrimeNumbers);
+                index++;
             }
-            rewind(filePointer);
-            fwrite(buffer, 1, fileSize, filePointer);
+
+            fclose(filePointer); // Close the original file
+
+            FILE *fp = fopen(plainTextFilePath, "wb"); // Open a new file in binary mode for writing
+            if (fp == NULL)
+            {
+                perror("Error creating encrypted file");
+                free(buffer);
+                continue;
+            }
+
+            fwrite(buffer, sizeof(long long int), index, fp); // Write encrypted data to the file
 
             free(buffer);
-            fclose(filePointer);
+            fclose(fp);
 
             continue;
         }
 
         else if (USER_OPTION == 3)
         {
-            int productOfPrimeNUmbers, privateKey;
+            long long int productOfPrimeNumbers, privateKey;
             printf("Decrypting cypher text file using your private key\n");
 
             FILE *filePointer;
@@ -200,12 +209,8 @@ int main()
 
             printf("Enter the name of the file: ");
             scanf("%s", filename);
-            printf("Enter the private Key : ");
-            scanf("%d", &privateKey);
-            printf("Enter the product of prime numbers Key: ");
-            scanf("%d", &productOfPrimeNUmbers);
 
-            filePointer = fopen(filename, "r+");
+            filePointer = fopen(filename, "rb");
             if (filePointer == NULL)
             {
                 perror("Error opening file");
@@ -216,24 +221,33 @@ int main()
             long fileSize = ftell(filePointer);
             rewind(filePointer);
 
-            char *buffer = (char *)malloc(fileSize + 1);
+            long long int *buffer = (long long int *)malloc((fileSize + 1));
+            char *charBuffer = (char *)malloc((fileSize + 1)/8);
 
             if (buffer == NULL)
             {
                 perror("Memory allocation failed for Decryption buffer");
                 continue;
             }
-            int  index=0;
+
+             printf("Enter the private Key : ");
+            scanf("%lld", &privateKey);
+            printf("Enter the product of prime numbers Key: ");
+            scanf("%lld", &productOfPrimeNumbers);
+            long long int index = 0;
 
             while ((character = fgetc(filePointer)) != EOF)
             {
-                buffer[index] = (char)modularExponentiation((int)character, privateKey, productOfPrimeNUmbers);
+                buffer[index] = modularExponentiation((long long int)character, privateKey, productOfPrimeNumbers);
+                printf("%c", buffer[index]);
+                charBuffer[index] = (char) (buffer[index]);//((buffer[index]>> 56) & 0xFF);
                 index++;
             }
-            rewind(filePointer);
-            fwrite(buffer, 1, fileSize, filePointer);
+           rewind(filePointer);
+           fwrite(charBuffer, 1,sizeof(charBuffer)/sizeof(charBuffer[0]), filePointer); 
 
-            fclose(filePointer);
+           fclose(filePointer);
+    
 
             continue;
         }
@@ -251,5 +265,5 @@ int main()
         }
     }
 
-   // return 0;
+    // return 0;
 }

@@ -1,10 +1,10 @@
 #ifndef primeNumberGenerator
 #define primeNumberGenerator
-int* generatePrimeNumbersInRangeOf(int lowerLimit, int upperLimit , int *sizeOfprimeNumberArray);
-int modularExponentiation(int base, int exponent, int modulus);
-int greatestCommonDivisor(int a, int b);
-int* showAvailablePublicKeys(int PHI,int * sizeOfarray);
-int generatePrivateKey(int PHI,int privateKey);
-int rsaEncryptCharacter(int plainCharacter, int publicKey, int productOfPrimeNumbers);
-int rsaDecryptCharacter(int cypherCharacter, int privateKey, int productOfPrimeNumbers);
+long long int* generatePrimeNumbersInRangeOf(long long int lowerLimit, long long int upperLimit , long long int *sizeOfprimeNumberArray);
+long long int modularExponentiation(long long int base, long long int exponent, long long int modulus);
+long long int greatestCommonDivisor(long long int a, long long int b);
+long long int* showAvailablePublicKeys(long long int PHI,long long int * sizeOfarray);
+long long int generatePrivateKey(long long int PHI,long long int privateKey);
+long long int rsaEncryptCharacter(long long int plainCharacter, long long int publicKey, long long int productOfPrimeNumbers);
+long long int rsaDecryptCharacter(long long int cypherCharacter, long long int privateKey, long long int productOfPrimeNumbers);
 #endif

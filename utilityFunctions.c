@@ -3,37 +3,35 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
-int* generatePrimeNumbersInRangeOf(int lowerLimit, int upperLimit , int *sizeOfprimeNumberArray) { 
+long long int* generatePrimeNumbersInRangeOf(long long int lowerLimit, long long int upperLimit , long long int *sizeOfprimeNumberArray) { 
      bool *isPrime = (bool *)malloc((upperLimit + 1) * sizeof(bool));
-    for (int i = 0; i <= upperLimit; i++)
+    for (long long int i = 0; i <= upperLimit; i++)
         isPrime[i] = true;
 
-    for (int p = 2; p * p <= upperLimit; p++) {
+    for (long long int p = 2; p * p <= upperLimit; p++) {
         if (isPrime[p] == true) {
-            for (int i = p * p; i <= upperLimit; i += p)
+            for (long long int i = p * p; i <= upperLimit; i += p)
                 isPrime[i] = false;
         }
     }
 
     printf("Prime numbers up to %d:\n",  upperLimit);
-    int index=0;
-    for (int p = lowerLimit; p <=  upperLimit; p++) {
+    long long int index=0;
+    for (long long int p = lowerLimit; p <=  upperLimit; p++) {
         if (isPrime[p]){
-             //printf("index : %d  number :%d\n",index,p);
             index++;
         }
            
     }
 
-    //index++;
     *sizeOfprimeNumberArray=index;
-    int* primeNumberArray = (int*)malloc(index * sizeof(int));
+    long long int* primeNumberArray = (long long int*)malloc(index * sizeof(long long int));
 
 
     if (primeNumberArray == NULL) {
         printf("Memory allocation failed primeNumberArray\n");
-        int *errorValueAdderss;
-        int errorValue = -1;
+        long long int *errorValueAdderss;
+        long long int errorValue = -1;
         *sizeOfprimeNumberArray=0;
         errorValueAdderss = &errorValue;
         return errorValueAdderss ;
@@ -41,7 +39,7 @@ int* generatePrimeNumbersInRangeOf(int lowerLimit, int upperLimit , int *sizeOfp
 
     index=0;
 
-     for (int p = lowerLimit; p <=  upperLimit; p++) {
+     for (long long int p = lowerLimit; p <=  upperLimit; p++) {
         if (isPrime[p]){
              printf("index : %d  number :%d\n",index,p);
              primeNumberArray[index]=p;
@@ -55,24 +53,13 @@ int* generatePrimeNumbersInRangeOf(int lowerLimit, int upperLimit , int *sizeOfp
     return primeNumberArray;
 }
 
-//  int performmodulusularexponentonentiation(int base, int exp, int mod) {
-//      int result = 1;
-//     while (exp > 0) {
-//         if (exp % 2 == 1)
-//             result = (result * base) % mod;
-//         base = (base * base) % mod;
-//         exp /= 2;
-//     }
-//     return result;
-// }
-
-int greatestCommonDivisor(int a, int b) {
+long long int greatestCommonDivisor(long long int a, long long int b) {
     if (b == 0){return a;}
     return greatestCommonDivisor(b, a % b);
 }
 
-int modularExponentiation(int base, int exponent, int modulus) {
-    int result = 1;
+long long int modularExponentiation(long long int base, long long int exponent, long long int modulus) {
+    long long int result = 1;
     while (exponent > 0) {
         if (exponent % 2 == 1)
             result = (result * base) % modulus;
