@@ -1,4 +1,0 @@
-3149-1087-1039
-product Of prime numbers [n] = 3149
-private key = 1087
-public key = 1039

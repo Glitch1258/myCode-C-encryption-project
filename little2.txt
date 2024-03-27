@@ -1,0 +1,4 @@
+493-79-431
+product Of prime numbers [n] = 493
+private key = 79
+public key = 431

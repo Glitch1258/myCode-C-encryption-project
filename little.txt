@@ -1,0 +1,4 @@
+161-89-89
+product Of prime numbers [n] = 161
+private key = 89
+public key = 89

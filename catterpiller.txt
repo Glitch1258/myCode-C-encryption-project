@@ -1,2 +1,0 @@
-product Of prime numbers [n] = 15
-private key = 5
