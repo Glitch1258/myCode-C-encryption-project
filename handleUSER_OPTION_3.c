@@ -42,7 +42,7 @@ void handleUSER_OPTION_3() {
       long long int index = 0;
       for (int i = 0; i < fileSize / sizeof(long long int); i++) {
         char decrypted_char = (char)modularExponentiation(buffer[i], privateKey, productOfPrimeNumbers);
-        printf("%c", decrypted_char);
+        //printf("%c", decrypted_char);
         fprintf(filePointer, "%c", decrypted_char);
       }
       fclose(filePointer);
