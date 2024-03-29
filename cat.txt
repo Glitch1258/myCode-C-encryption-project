@@ -1,4 +1,0 @@
-7387-7207-3207
-product Of prime numbers [n] =       7387
-private key =       3207
-public key =       7207

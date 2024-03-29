@@ -1,84 +1,69 @@
-#include "utilityFunctions.h"
-#include <stdio.h>
 #include <stdbool.h>
+#include <stdio.h>
 #include <stdlib.h>
+#include "myFunctions.h"
 
-int* generatePrimeNumbersInRangeOf(int lowerLimit, int upperLimit , int *sizeOfprimeNumberArray) { 
-     bool *isPrime = (bool *)malloc((upperLimit + 1) * sizeof(bool));
-    for (int i = 0; i <= upperLimit; i++)
-        isPrime[i] = true;
+long long int* generatePrimeNumbersInRangeOf(long long int lowerLimit,long long int upperLimit,long long int* sizeOfprimeNumberArray) {
+  bool* isPrime = (bool*)malloc((upperLimit + 1) * sizeof(bool));
+  for (long long int i = 0; i <= upperLimit; i++)
+    isPrime[i] = true;
 
-    for (int p = 2; p * p <= upperLimit; p++) {
-        if (isPrime[p] == true) {
-            for (int i = p * p; i <= upperLimit; i += p)
-                isPrime[i] = false;
-        }
+  for (long long int p = 2; p * p <= upperLimit; p++) {
+    if (isPrime[p] == true) {
+      for (long long int i = p * p; i <= upperLimit; i += p)
+        isPrime[i] = false;
     }
+  }
 
-    printf("Prime numbers up to %d:\n",  upperLimit);
-    int index=0;
-    for (int p = lowerLimit; p <=  upperLimit; p++) {
-        if (isPrime[p]){
-             //printf("index : %d  number :%d\n",index,p);
-            index++;
-        }
-           
+  printf("Prime numbers up to %d:\n", upperLimit);
+  long long int index = 0;
+  for (long long int p = lowerLimit; p <= upperLimit; p++) {
+    if (isPrime[p]) {
+      index++;
     }
+  }
 
-    //index++;
-    *sizeOfprimeNumberArray=index;
-    int* primeNumberArray = (int*)malloc(index * sizeof(int));
+  *sizeOfprimeNumberArray = index;
+  long long int* primeNumberArray = (long long int*)malloc(index * sizeof(long long int));
 
+  if (primeNumberArray == NULL) {
+    printf("Memory allocation failed primeNumberArray\n");
+    long long int* errorValueAdderss;
+    long long int errorValue = -1;
+    *sizeOfprimeNumberArray = 0;
+    errorValueAdderss = &errorValue;
+    return errorValueAdderss;
+  }
 
-    if (primeNumberArray == NULL) {
-        printf("Memory allocation failed primeNumberArray\n");
-        int *errorValueAdderss;
-        int errorValue = -1;
-        *sizeOfprimeNumberArray=0;
-        errorValueAdderss = &errorValue;
-        return errorValueAdderss ;
+  index = 0;
+
+  for (long long int p = lowerLimit; p <= upperLimit; p++) {
+    if (isPrime[p]) {
+      printf("index : %d  number :%d\n", index, p);
+      primeNumberArray[index] = p;
+      index++;
     }
+  }
 
-    index=0;
-
-     for (int p = lowerLimit; p <=  upperLimit; p++) {
-        if (isPrime[p]){
-             printf("index : %d  number :%d\n",index,p);
-             primeNumberArray[index]=p;
-            index++;
-        }
-           
-    }
-
-    printf("\n");
-    free(isPrime);
-    return primeNumberArray;
+  printf("\n");
+  free(isPrime);
+  return primeNumberArray;
 }
 
-//  int performmodulusularexponentonentiation(int base, int exp, int mod) {
-//      int result = 1;
-//     while (exp > 0) {
-//         if (exp % 2 == 1)
-//             result = (result * base) % mod;
-//         base = (base * base) % mod;
-//         exp /= 2;
-//     }
-//     return result;
-// }
-
-int greatestCommonDivisor(int a, int b) {
-    if (b == 0){return a;}
-    return greatestCommonDivisor(b, a % b);
+long long int greatestCommonDivisor(long long int a, long long int b) {
+  if (b == 0) {
+    return a;
+  }
+  return greatestCommonDivisor(b, a % b);
 }
 
-int modularExponentiation(int base, int exponent, int modulus) {
-    int result = 1;
-    while (exponent > 0) {
-        if (exponent % 2 == 1)
-            result = (result * base) % modulus;
-        base = (base * base) % modulus;
-        exponent /= 2;
-    }
-    return result;
+long long int modularExponentiation(long long int base, long long int exponent, long long int modulus) {
+  long long int result = 1;
+  while (exponent > 0) {
+    if (exponent % 2 == 1)
+      result = (result * base) % modulus;
+    base = (base * base) % modulus;
+    exponent /= 2;
+  }
+  return result;
 }
-

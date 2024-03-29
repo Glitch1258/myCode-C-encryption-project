@@ -1,4 +1,0 @@
-275141-141553-273649
-product Of prime numbers [n] = 275141
-private key = 141553
-public key = 273649

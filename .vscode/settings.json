@@ -5,6 +5,9 @@
         "stdio.h": "c",
         "utilityfunctions.h": "c",
         "type_traits": "c",
-        "xtr1common": "c"
+        "xtr1common": "c",
+        "myfunctions.h": "c",
+        "stdbool.h": "c",
+        "string.h": "c"
     }
 }

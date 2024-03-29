@@ -1,4 +1,0 @@
-161-103-91
-product Of prime numbers [n] = 161
-private key = 103
-public key = 91
